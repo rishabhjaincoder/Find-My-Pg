@@ -60,9 +60,11 @@ class Ratings(models.Model):
     date=models.DateField()
 
 class ContactOwner(models.Model):
-    userid=models.ForeignKey(User,on_delete=models.CASCADE)
     pgid=models.ForeignKey(PG,on_delete=models.CASCADE)
+    name=models.CharField(max_length=30)
     message=models.CharField(max_length=30)
+    email=models.CharField(max_length=30)
+    phone=models.CharField(max_length=30)
     datetime=models.DateTimeField()
 
 class PGImages(models.Model):

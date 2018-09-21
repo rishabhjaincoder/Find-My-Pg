@@ -34,6 +34,7 @@ urlpatterns = [
     path(r'owner/profilephoto/', owner.ProfilePhoto),
 	path(r'owner/addpg/', owner.addpg),
     path(r'owner/pgs/', owner.pglist),
+    path(r'owner/notifications/',owner.Notifications),
 
 
     #User
@@ -41,6 +42,7 @@ urlpatterns = [
     path(r'search/',user.search),
     path(r'search/<int:page>/', user.search),
     path(r'pg/details/<int:pgid>/',user.PGDetail),
+    path(r'pg/contact/<int:pgid>',user.Contact),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

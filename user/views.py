@@ -194,3 +194,16 @@ def PGDetail(request,pgid=1):
 
 	data={'pg':pg,'owner':owner}
 	return render(request,'user/pgdetail.html',data)
+
+
+def Contact(request,pgid):
+	contact=ContactOwner()
+	contact.pgid=PG.objects.get(id=pgid)
+	contact.name=request.POST.get('name')
+	contact.email=request.POST.get('email')
+	contact.phone=request.POST.get('phone')
+	contact.message=request.POST.get('message')
+	contact.datetime='2018-01-01'
+	contact.save()
+	contact=ContactOwner.objects.values_list()
+	return HttpResponse(contact)

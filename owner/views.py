@@ -16,9 +16,13 @@ def index(request):
 		return redirect('/owner/login')
 
 def addpg(request):
-	if(request.method=='GET'):
-		return render(request,'owner/addpg.html',None)
-	else:
+	loginid=request.session.get('loginid')
+	if(loginid and request.method=='GET'):
+		data={}
+		data['username']=Login.objects.get(id=loginid).username
+		data['profile']=Owner.objects.get(loginid=loginid)
+		return render(request,'owner/addpg.html',data)
+	elif(request.method=='POST'):
 		#PG
 
 		obj=PG()	
@@ -33,7 +37,8 @@ def addpg(request):
 		obj.rooms=request.POST.get('rooms')
 		obj.intime='2018-08-10 08:00'
 		obj.outtime='2018-08-10 23:00'
-		obj.ownerid=Owner.objects.get(id=1)
+		obj.ownerid=Owner.objects.get(loginid=loginid)
+
 		obj.save()
 
 		#Ameneties
@@ -58,6 +63,8 @@ def addpg(request):
 			pgimages.save()
 
 		return HttpResponse('Record Saved')
+	else:
+		return redirect('/owner/login')
 
 def register(request):
 	if(request.method=='GET'):
@@ -69,8 +76,6 @@ def register(request):
 		#Check if Credentials already exists
 		if(Login.objects.filter(username=username,password=password).exists()):
 			data={}
-			data['username']=username
-			data['password']=password
 			data['error']='Username and/or Password already exists'
 			return render(request,'owner/register.html',data)
 
@@ -104,8 +109,8 @@ def login(request):
 		#Check if Credentials already exists
 		if(not Login.objects.filter(username=username,password=password).exists()):
 			data={}
-			data['error']='Username and/or Password already exists'
-			return render(request,'owner/register.html',data)
+			data['error']='Username and/or Password Not exists'
+			return render(request,'owner/login.html',data)
 
 		obj=Login.objects.get(username=username,password=password)	
 		request.session['loginid']=obj.id
@@ -115,7 +120,7 @@ def profile(request):
 	loginid=request.session.get('loginid')
 	if(loginid and request.method=='GET'):
 		data={}
-		data['username']=Login.objects.get(pk=loginid).username
+		data['username']=Login.objects.get(id=loginid).username
 		data['profile']=Owner.objects.get(loginid=loginid)
 		return render(request,'owner/profile.html',data)
 	elif(loginid and request.method=='POST'):
@@ -149,3 +154,14 @@ def pglist(request):
 	owner=Owner.objects.get(loginid=loginid)
 	pgs=PG.objects.filter(ownerid=owner)
 	return render(request,'owner/pglist.html',{'pgs':pgs})
+
+
+def Notifications(request):
+	loginid=request.session.get('loginid')
+	if(loginid and request.method=='GET'):
+		enquiries=ContactOwner.objects.filter()
+		data={}
+		data['username']=Login.objects.get(id=loginid).username
+		data['profile']=Owner.objects.get(loginid=loginid)
+		data['enquiries']=enquiries
+		return render(request,'owner/notifications.html',data)
