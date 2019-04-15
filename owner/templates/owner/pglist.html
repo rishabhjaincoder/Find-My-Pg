@@ -2,24 +2,27 @@
 
 
 {% block main %}
+        
         <div class="content">
             <div class="container-fluid">
-            	{% for pg in pgs %}
-            	<table class="table">
-            		<tr>
-            			<td>PG ID</td>
-	            		<td>Address</td>	            		
-            		</tr> 
-            		<tr>
-            			<td>{{pg.id}}</td>
-            			<td>{{pg.address}}</td>
-            		</tr>           	
-            		<tr>
-            			<td>Edit</td>
-            			<td>Delete</td>
-            		</tr>	
-            	</table>            	
-            	{% endfor %}
-            </div>
-        </div>
+                <h3><a href="/owner/addpg/">Add New PG</a></h3>
+                <table class="table">
+                    <tr>
+                        <td>Id</td>
+                        <td>Address</td>
+                        <td>Price</td>
+                        <td>Phone</td>
+                        <td>Command</td>                        
+                    </tr> 
+                  {% for pg in pgs %}
+                    <tr>
+                        <td>{{pg.id}}</td>
+                        <td>{{pg.address}}</td>
+                        <td>{{pg.rent}}</td>
+                        <td></td>
+                        <td><a  href="/owner/update/{{pg.id}}">Edit</a> | <a href="/owner/delete/{{pg.id}}">Delete</a></td>
+                    </tr>               
+                {% endfor %}
+                </table>                
+    
 {% endblock %}

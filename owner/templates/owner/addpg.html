@@ -1,5 +1,7 @@
 {% extends 'owner/base.html' %}
 
+{% load static %}
+
 
 {% block main %}
 <div class="content">
@@ -14,11 +16,25 @@
 
 {% csrf_token %}
 
+<div class="alert alert-danger" id="error-box">
+	<h3>Please correct following errors:</h3>
+	<ul>
+	</ul>
+</div>
+
+
+{% if success %}
+<div class="alert alert-success">
+    <label style="color:white;">Congratulations! Property Added successfully</label>
+</div>
+{% endif %}
+
+
 <div class="row">
 <div class="col-lg-12">
 <div class="form-group">
     <label>Address</label>
-    <input type="text" name="address" class="form-control border-input" placeholder="Address">
+    <input id="address" type="text" name="address" class="form-control border-input" placeholder="Address">
 </div>
 </div>
 </div>
@@ -27,19 +43,19 @@
 <div class="col-lg-4">
 <div class="form-group">
     <label>Location</label>
-    <input type="text" name="location" class="form-control border-input" placeholder="Location">
+    <input id="location" type="text" name="location" class="form-control border-input" placeholder="Location">
 </div>
 </div>	
 <div class="col-md-4">
 <div class="form-group">
     <label>City</label>
-    <input type="text" name="city" class="form-control border-input" placeholder="City">
+    <input id="city" type="text" name="city" class="form-control border-input" placeholder="City">
 </div>
 </div>
 <div class="col-md-4">
 <div class="form-group">
     <label>Pin Code</label>
-    <input type="number" name="pin" class="form-control border-input" placeholder="ZIP Code">
+    <input id="pincode" type="text" name="pin" class="form-control border-input" placeholder="ZIP Code">
 </div>
 </div>
 </div>
@@ -49,21 +65,21 @@
 	<div class="col-md-4">
 		<div class="form-group">
 		    <label>For</label>
-		    <input type="text" name="gender" class="form-control border-input" placeholder="Boy/Girl">
+		    <input id="gender" type="text" name="gender" class="form-control border-input" placeholder="Boy/Girl">
 		</div>
 	</div>
 
 	<div class="col-md-4">
 		<div class="form-group">
 		    <label>Occupancy</label>
-		    <input type="text" name="occupancy" class="form-control border-input" placeholder="Occupancy">
+		    <input id="occupancy" type="text" name="occupancy" class="form-control border-input" placeholder="Occupancy">
 		</div>
 	</div>
 
 	<div class="col-md-4">
 		<div class="form-group">
 		    <label>Rent</label>
-		    <input type="text" name="rent" class="form-control border-input" placeholder="Rent">
+		    <input id="rent" type="text" name="rent" class="form-control border-input" placeholder="Rent">
 		</div>
 	</div>
 </div>
@@ -75,14 +91,14 @@
 	<div class="col-md-6">
 		<div class="form-group">
 		    <label>Size</label>
-		    <input type="number" name="size" class="form-control border-input" placeholder="Room Area">
+		    <input id="size" type="number" name="size" class="form-control border-input" placeholder="Room Area (Sq-Ft)">
 		</div>
 
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
 		    <label>No. of Rooms</label>
-		    <input type="number" name="rooms" class="form-control border-input" placeholder="#Rooms">
+		    <input id="rooms" type="number" name="rooms" class="form-control border-input" placeholder="#Rooms">
 		</div>
 	</div>
 </div>
@@ -158,7 +174,7 @@
 
 
 <div class="text-center">
-<button type="submit" class="btn btn-info btn-fill btn-wd">Save Property</button>
+<button id="submit" type="submit" class="btn btn-info btn-fill btn-wd">Save Property</button>
 </div>
 <div class="clearfix"></div>
 </form>
@@ -167,4 +183,80 @@
 </div>
 </div>
 </div>
+
+<script src="{% static 'owner/js/jquery-1.10.2.js' %}" type="text/javascript"></script>
+ 
+<script type="text/javascript">
+	$(function() {
+
+	$('#error-box').hide();
+
+	$('#submit').click(function(e){
+		isvalid=true;
+		$('#error-box ul').html('');
+
+        if($('#address').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Address is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#location').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Location is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#city').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">City is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#pincode').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Pin Code is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#gender').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Gender is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#rooms').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Rooms is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#occupancy').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Occupancy is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#rent').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Rent is required!</li>');
+        	isvalid=false;        	        	
+        }
+        if($('#size').val()=="")
+        {
+        	$('#error-box ul').append('<li style="color:white;display:block;">Size is required!</li>');
+        	isvalid=false;        	        	
+        }
+
+
+       if(isvalid==false)
+        {
+        	$('#error-box').show();
+        	e.preventDefault();
+        }
+
+        return isvalid;
+
+
+	});
+
+	});
+
+</script>
+
+
 {% endblock %}
+

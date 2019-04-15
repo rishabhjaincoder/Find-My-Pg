@@ -72,16 +72,17 @@
      <!-- properties -->
       <div class="col-lg-4 col-sm-6">
       <div class="properties">
-        <div class="image-holder"><img src="/images/{{pg.image}}" class="img-responsive" alt="properties">
+        <div class="image-holder"><img style="height:300px;width:100%" src="/images/{{pg.image}}" class="img-responsive" alt="properties">
           <div class="status new">New</div>
         </div>
         <h4><a href="property-detail.php">{{ pg.location }}</a></h4>
         <p class="price">Price: ₹{{ pg.rent }}</p>
-        <div class="listing-detail">
+        <div class="listing-detail" style="height:60px;">
           {% for amn in pg.ameneties %}
-          <span data-toggle="tooltip" data-placement="bottom" data-original-title="{{amn}}">1</span> 
+          <label style="padding:5px;color:white;background-color:black;maring:5px;border-radius: 20px">{{amn}}</label> 
           {% endfor %}
         </div>
+
         <a class="btn btn-primary" href="/pg/details/{{pg.id}}">View Details</a>
       </div>
       </div>

@@ -20,21 +20,22 @@ from django.conf.urls.static import static
 
 
 from main import views as main
-from administrator import views as adm
 from owner import views as owner
 from user import views as user
 
 urlpatterns = [
-	#Admin
-	path(r'owner/', owner.index),
+    #Admin
+    path(r'owner/', owner.index),
     path(r'owner/register/', owner.register),
     path(r'owner/login/', owner.login),
     path(r'owner/logout/', owner.logout),
     path(r'owner/profile/', owner.profile),
     path(r'owner/profilephoto/', owner.ProfilePhoto),
-	path(r'owner/addpg/', owner.addpg),
+    path(r'owner/addpg/', owner.addpg),
+    path(r'owner/delete/<int:id>', owner.deletepg),
+    path(r'owner/update/<int:id>', owner.updatepg),
     path(r'owner/pgs/', owner.pglist),
-    path(r'owner/notifications/',owner.Notifications),
+    path(r'owner/notifications/', owner.Notifications),
 
 
     #User

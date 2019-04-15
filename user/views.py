@@ -4,9 +4,12 @@ from django.http import HttpResponse
 
 def index(request):
 	pgs=PG.objects.filter()
+	pgs=pgs[:5]
 
 	for i in range(len(pgs)):
-		pgs[i].image=PGImages.objects.filter(pgid=pgs[i])[0].image
+		pgimages=PGImages.objects.filter(pgid=pgs[i])
+		if(len(pgimages)!=0):
+			pgs[i].image=pgimages[0].image
 		amn=Ameneties.objects.get(pgid=pgs[i])
 		pgs[i].ameneties=[]
 		if(amn.ac==True):
@@ -46,7 +49,9 @@ def search(request,page=1):
 
 		pgs=pgs[(page-1)*6:page*6]
 		for i in range(len(pgs)):
-			pgs[i].image=PGImages.objects.filter(pgid=pgs[i])[0].image
+			pgimages=PGImages.objects.filter(pgid=pgs[i])
+			if(len(pgimages)!=0):
+				pgs[i].image=pgimages[0].image
 			amn=Ameneties.objects.get(pgid=pgs[i])
 			pgs[i].ameneties=[]
 			if(amn.ac==True):
@@ -141,7 +146,9 @@ def search(request,page=1):
 		pgs=pgs[(page-1)*6:page*6]
 
 		for i in range(len(pgs)):
-			pgs[i].image=PGImages.objects.filter(pgid=pgs[i])[0].image
+			pgimages=PGImages.objects.filter(pgid=pgs[i])
+			if(len(pgimages)!=0):
+				pgs[i].image=pgimages[0].image
 			amn=Ameneties.objects.get(pgid=pgs[i])
 			pgs[i].ameneties=[]
 			if(amn.ac==True):
@@ -205,5 +212,4 @@ def Contact(request,pgid):
 	contact.message=request.POST.get('message')
 	contact.datetime='2018-01-01'
 	contact.save()
-	contact=ContactOwner.objects.values_list()
-	return HttpResponse(contact)
+	return redirect("/")
